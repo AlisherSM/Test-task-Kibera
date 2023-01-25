@@ -5,17 +5,19 @@ from django.views.generic import ListView, FormView, CreateView, UpdateView, Del
 from django.shortcuts import render
 from django.contrib import messages
 from django.urls import reverse
+from django.db.models import Q
 
 
-class NewsViews(ListView):
+class NewsView(ListView):
     template_name = "news/main_page.html"
     context_object_name = "news"
+    paginate_by = 10
 
     def get_queryset(self):
         return News.objects.all()
 
 
-class NewsViewsReversed(ListView):
+class NewsViewReversed(ListView):
     template_name = "news/main_page.html"
     context_object_name = "news"
 
@@ -68,4 +70,17 @@ class NewsUpdateView(UpdateView):
     
     def get_success_url(self):
         return reverse('news')
+
+
+class NewsSearchView(NewsView):
+    def get_queryset(self):
+        search_news = self.request.GET["search_news"]
+        return News.objects.filter(
+            Q(title__icontains=search_news)
+        )
+
+    def get_context_data(self, **kwargs):
+        search_news = self.request.GET["search_news"]
+        context = super().get_context_data(**kwargs)
+        return context
   
