@@ -1,0 +1,19 @@
+{% extends 'news/base.html' %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <form action="" method="post">
+                {% csrf_token %}
+                <p>Вы точно хотите удалить: {{ news.title }} ?</p>
+                <a href="{% url 'news' %}" class="btn btn-success">Отмена</a>
+                <button type="submit" class="btn btn-danger">Да</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

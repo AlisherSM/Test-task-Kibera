@@ -1,0 +1,39 @@
+{% extends 'news/base.html' %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block content %}
+  <div>
+    <a href="{% url 'add-news' %}" class="btn btn-success">Добавить новость</a>
+  </div>
+  
+
+  <div class="dropdown mt-5">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      Sort by
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li><a class="dropdown-item" href="{% url 'news' %}">New first</a></li>
+      <li><a class="dropdown-item" href="{% url 'news-reversed' %}">Old first</a></li>
+    </ul>
+  </div>
+
+  {% for item in news %}
+  <div class="card bg-color-light mt-3 p-2">
+    <h4>{{ item.title }}</h4>
+    <p>{{ item.news_text }}</p>
+    <div class="d-flex justify-content-beetwen mt-3">
+      <p>
+        Author is: {{ item.author }}
+      </p>
+      <div class="ms-auto">
+      
+        <a href="{% url 'update-news' pk=item.pk %}" class="btn btn-warning">Изменить</a>
+        <a href="{% url 'delete-news' pk=item.pk %}" class="btn btn-danger">Удалить</a>
+      </div>
+    </div>
+    
+    
+  </div>
+  {% endfor %}
+{% endblock %}
